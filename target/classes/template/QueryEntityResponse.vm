@@ -1,0 +1,27 @@
+${package.Entity};
+import ${package.Entity}.${entity};
+import java.util.ArrayList;
+import java.util.List;
+import com.bee.framework.type.header.ResponseHeader;
+
+#set ($classname = $entity.substring(0,1).toLowerCase() + $entity.substring(1,$entity.length()))
+
+public class Query${entity}Response extends ResponseHeader{
+
+    private static final long serialVersionUID = 1L;
+
+    public List<${entity}> ${classname}List;
+
+    public List<${entity}> get${entity}List(){
+
+        if(null==${classname}List){
+            ${classname}List = new ArrayList<${entity}>();
+        }
+
+        return ${classname}List;
+    }
+
+    public void set${entity}List(List<${entity}> ${classname}List){
+        this.${classname}List = ${classname}List;
+    }
+}

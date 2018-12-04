@@ -1,0 +1,30 @@
+package ${package.Entity};
+
+#foreach($pkg in ${table.importPackages})
+import ${pkg};
+#end
+/**
+ * 文件描述: ${table.comment}实体类<
+ */
+public class ${entity}{
+
+#foreach($field in ${table.fields})
+
+    /**
+     * ${field.comment}
+     */
+    private ${field.propertyType} ${field.propertyName};
+
+#end
+
+#foreach($field in ${table.fields})
+    public ${field.propertyType} get${field.capitalName}(){
+        return ${field.propertyName};
+    }
+
+    public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+        this.${field.propertyName} = ${field.propertyName};
+    }
+
+#end
+}

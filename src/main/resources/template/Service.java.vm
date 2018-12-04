@@ -1,0 +1,23 @@
+package ${package.Service};
+import ${package.Entity}.${entity};
+import com.bee.framework.i.bp.core.CoreException;
+import java.util.List;
+
+/**
+ * ${table.comment}服务接口
+ * @author ${author}
+ */
+public interface ${table.serviceName}{
+
+    #set ($classname = $entity.substring(0,1).toLowerCase() + $entity.substring(1,$entity.length()))
+
+    List<${entity}> query${entity}ListPage(${entity} ${classname}) throws CoreException;
+
+    void add${entity}Info(${entity} ${classname}) throws CoreException;
+
+    ${entity} query${entity}Info(${entity} ${classname}) throws CoreException;
+
+    void delete${entity}Info(${entity} ${classname}) throws CoreException;
+
+    void update${entity}Info(${entity} ${classname}) throws CoreException;
+}

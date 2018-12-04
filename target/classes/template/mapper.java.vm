@@ -1,0 +1,55 @@
+package ${package.Mapper};
+
+import ${package.Entity}.${entity};
+import ${superMapperClassPackage};
+import java.util.List;
+
+/**
+ * mapper模板
+ * @auther: xuxitan
+ * @date: 2018/12/4 14:57
+ */
+public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
+
+    #set ($classname = $entity.substring(0,1).toLowerCase() + $entity.substring(1,$entity.length()))
+
+    /**
+     * 根据主键查询单个
+     * @param entity
+     * @return ${entity}
+     */
+    ${entity} query${entity}ByPrimaryKey(${entity} ${classname});
+
+    /**
+     * 根据条件查询单个
+     * @param entity
+     * @return ${entity}
+     */
+    ${entity} query${entity}Info(${entity} ${classname});
+
+    /**
+     * 根据条件查询集合
+     * @param entity
+     * @return List<${entity}>
+     */
+    List<${entity}> query${entity}List(${entity} ${classname});
+
+    /**
+     * 添加单个
+     * @param entity
+     */
+    void add${entity}Info(${entity} ${classname});
+
+    /**
+     * 根据主键修改单个
+     * @param entity
+     */
+    void update${entity}ByPrimaryKey(${entity} ${classname});
+
+    /**
+     * 根据主键删除单个
+     * @param entity
+     */
+    void  delete${entity}ByPrimaryKey(${entity} ${classname});
+
+}

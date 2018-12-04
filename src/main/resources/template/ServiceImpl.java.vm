@@ -1,0 +1,40 @@
+package ${package.ServiceImpl};
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * <li>文件名称: ${table.comment} 服务接口实现类</li>
+ * @author ${author}
+ */
+@Service
+public class ${table.serviceImplName} implements ${table.serviceName} {
+
+#set ($mapperName = $table.mapperName.substring(0,1).toLowerCase() + $table.mapperName.substring(1,$table.mapperName.length()))
+
+    @Autowired
+    private ${table.mapperName} ${mapperName};
+
+    @Override
+    List<${entity}> query${entity}ListPage(${entity} ${classname}) throws CoreException{
+
+
+    }
+
+    @Override
+    void add${entity}Info(${entity} ${classname}) throws CoreException;
+
+    @Override
+    ${entity} query${entity}Info(${entity} ${classname}) throws CoreException;
+
+    @Override
+    void delete${entity}Info(${entity} ${classname}) throws CoreException;
+
+    @Override
+    void update${entity}Info(${entity} ${classname}) throws CoreException;
+
+}

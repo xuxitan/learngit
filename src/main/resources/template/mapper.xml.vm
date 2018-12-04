@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${package.Mapper}.${table.mapperName}">
+
+#if(${baseResultMap})
+	<!-- 通用查询映射结果 -->
+	<resultMap id="baseResultMap" type="${package.Entity}.${entity}">
+#foreach($field in ${table.fields})
+#if(${field.keyFlag})##生成主键排在第一位
+		<id column="${field.name}" property="${field.propertyName}" />
+#end
+#end
+#foreach($field in ${table.fields})
+#if(!${field.keyFlag})##生成普通字段
+		<result column="${field.name}" property="${field.propertyName}" />
+#end
+#end
+	</resultMap>
+#end
+
+#if(${baseColumnList})
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ${table.fieldNames}
+    </sql>
+#end
+    <!-- 根据主键查询单个 -->
+#foreach($field in $table.fields)
+#if(${field.keyFlag})
+    <select id="query${entity}ByPrimaryKey" parameterType="${package.Entity}.${entity}" resultMap="baseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ${table.name}
+        WHERE ${field.name}= #{${field.propertyName},jdbcType=${field.columnType}}
+    </select>
+#end
+#end
+
+    <!-- 根据条件查询单个${entity} -->
+    <select id="query${entity}Info" parameterType="${package.Entity}.${entity}" resultMap="baseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ${table.name}
+        <trim prefix="WHERE" prefixOverrides="AND">
+#foreach($field in $table.fields)
+          <if test="${field.propertyName}!=null">
+            AND ${field.name} = #{${field.propertyName},jdbcType=${field.columnType}}
+          </if>
+#end
+        </trim>
+    </select>
+
+    <!-- 根据条件查询集合List<${entity}> -->
+    <select id="query${entity}List" parameterType="${package.Entity}.${entity}" resultMap="baseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ${table.name}
+        <trim prefix="WHERE" prefixOverrides="AND">
+#foreach($field in $table.fields)
+          <if test="${field.propertyName}!=null">
+              AND ${field.name} = #{${field.propertyName},jdbcType=${field.columnType}}
+          </if>
+#end
+        </trim>
+    </select>
+
+    <!-- 添加单个${entity} -->
+    <insert id="add${entity}Info" parameterType="${package.Entity}.${entity}">
+      INSERT INTO ${table.name}
+      <trim prefix="WHERE" prefixOverrides="AND">
+#foreach($field in $table.fields)
+        <if test="${field.propertyName}!=null">
+            ${field.name},
+        </if>
+#end
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+#foreach($field in $table.fields)
+        <if test="${field.propertyName}!=null">
+            #{${field.propertyName},jdbcType=${field.columnType}},
+        </if>
+#end
+      </trim>
+    </insert>
+
+    <!-- 根据主键修改${entity} -->
+    <update id="update${entity}ByPrimaryKey" parameterType="${package.Entity}.${entity}">
+        UPDATE ${table.name}
+        <set>
+#foreach($field in $table.fields)
+#if(!${field.keyFlag})
+          <if test="${field.propertyName}!=null">
+             ${field.name} = #{${field.propertyName},jdbcType=${field.columnType}}
+          </if>
+#end
+#end
+        </set>
+#foreach($field in $table.fields)
+#if(${field.keyFlag})
+        WHERE ${field.name} = #{${field.propertyName},jdbcType=${field.columnType}}
+#end
+#end
+    </update>
+
+    <!-- 根据主键删除${entity} -->
+    <delete id="delete${entity}ByPrimaryKey" parameterType="${package.Entity}.${entity}">
+        DELETE
+        FROM ${table.name}
+#foreach($field in $table.fields)
+#if(${field.keyFlag})
+        WHERE ${field.name} = #{${field.propertyName},jdbcType=${field.columnType}}
+#end
+#end
+    </delete>
+</mapper>
